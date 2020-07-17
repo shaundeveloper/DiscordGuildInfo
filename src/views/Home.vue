@@ -22,10 +22,10 @@
   		</transition>
 	</form>
 	<transition name="fade">
-  		<h1 v-if="guildName" class="w-full max-w-sm mx-auto mt-1">Name: {{ guildName }}</h1>
+  		<h1 v-if="!error && guildName" class="w-full max-w-sm mx-auto mt-1">Name: {{ guildName }}</h1>
   	</transition>
   	<transition name="fade">
-  		<h1 v-if="guildName" class="w-full max-w-sm mx-auto mt-1">Members online: {{ membersOnline }}</h1>
+  		<h1 v-if="!error && guildName" class="w-full max-w-sm mx-auto mt-1">Members online: {{ membersOnline }}</h1>
   	</transition>
 
   </div>
