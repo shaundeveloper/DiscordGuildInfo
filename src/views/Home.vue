@@ -22,10 +22,10 @@
   		</transition>
 	</form>
 	<transition name="fade">
-  		<h1 v-if="!error && guildName" class="w-full max-w-sm mx-auto mt-1">Name: {{ guildName }}</h1>
-  	</transition>
-  	<transition name="fade">
-  		<h1 v-if="!error && guildName" class="w-full max-w-sm mx-auto mt-1">Members online: {{ membersOnline }}</h1>
+	      <div v-if="!error && guildName>
+  		<h1 class="w-full max-w-sm mx-auto mt-1">Name: {{ guildName }}</h1>
+  		<h1 class="w-full max-w-sm mx-auto mt-1">Members online: {{ membersOnline }}</h1>
+	      </div>
   	</transition>
 
   </div>
@@ -35,7 +35,7 @@
 	.fade-enter-active, .fade-leave-active { 
 		transition: opacity 1s; 
 	}
-	.fade-enter, .fade-leave-to /* .fade-leave-active em versões anteriores a 2.1.8 */ { 
+	.fade-enter, .fade-leave-to { 
 		opacity: 0;
 	}
 </style>
@@ -45,43 +45,36 @@
 
 	export default {
   		name: 'Home',
-  		components: {
-  		},
   		methods: {
-  			async guildInfo() {
-
-  				const input = this.$refs.guildIdInput.value;
+  		async guildInfo() {
+		
+  		const input = this.$refs.guildIdInput.value;
 
                 if (/^[0-9]+$/.test(input)) {
 
                 	this.error = false;
 
-                    try {
-  						const data = (await axios.get(`https://discordapp.com/api/guilds/${this.$refs.guildIdInput.value}/widget.json`)).data
-                   
-  						this.guildName = data.name;
-  						this.membersOnline = data.members.length;
+                    	try {
+  				const data = (await axios.get(`https://discordapp.com/api/guilds/${this.$refs.guildIdInput.value}/widget.json`)).data
+                   		this.guildName = data.name;
+  				this.membersOnline = data.members.length;
 
-  						console.log(data);
-  					} catch(e) {
-  						this.error = true;
-  					}
-  				} else {//ata perai na vdd nem eh do tailwind é do vue
-  					this.error = false;
-  					this.error = true;
+  				} catch(e) {
+  			   		this.error = true;
   				}
+
+  			} else {
+  				this.error = true;
   			}
+  		}
   		},
   		data() {
   			return {
   				error: false,
-  				membersOnline: undefined,
-  				guildId: undefined,
-  				guildName: undefined
+  				membersOnline: "",
+  				guildId: "",
+  				guildName: ""
   			}
-  		},
-  		mounted() {
-  			
   		}
 	}
 </script>
